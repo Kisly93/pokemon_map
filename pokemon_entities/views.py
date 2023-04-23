@@ -82,6 +82,14 @@ def show_pokemon(request, pokemon_id):
             'img_url': request.build_absolute_uri(location=pokemon.parent.image.url)
         }
         pokemon_data['previous_evolution'] = parent_data
+    kids = pokemon.kids.all()
+    if kids:
+        kid_data = {
+            'title_ru': kids[0].title,
+            'pokemon_id': kids[0].id,
+            'img_url': request.build_absolute_uri(location=kids[0].image.url)
+        }
+        pokemon_data['next_evolution'] = kid_data
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon_data
     })
