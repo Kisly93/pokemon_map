@@ -68,7 +68,7 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             img_url
         )
-    pokemon_data = {
+    pokemon_information = {
         'title_ru': pokemon.title,
         'title_en': pokemon.title_en,
         'title_jp': pokemon.title_jp,
@@ -76,20 +76,20 @@ def show_pokemon(request, pokemon_id):
         'description': pokemon.description,
     }
     if pokemon.parent:
-        parent_data = {
+        parent_information = {
             'title_ru': pokemon.parent.title,
             'pokemon_id': pokemon.parent.id,
             'img_url': request.build_absolute_uri(location=pokemon.parent.image.url)
         }
-        pokemon_data['previous_evolution'] = parent_data
+        pokemon_information['previous_evolution'] = parent_information
     kids = pokemon.kids.all()
     if kids.first():
-        kid_data = {
+        kid_information = {
             'title_ru': kids.first().title,
             'pokemon_id': kids.first().id,
             'img_url': request.build_absolute_uri(location=kids.first().image.url)
         }
-        pokemon_data['next_evolution'] = kid_data
+        pokemon_information['next_evolution'] = kid_information
     return render(request, 'pokemon.html', context={
-        'map': folium_map._repr_html_(), 'pokemon': pokemon_data
+        'map': folium_map._repr_html_(), 'pokemon': pokemon_information
     })
