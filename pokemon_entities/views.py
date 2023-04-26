@@ -83,11 +83,11 @@ def show_pokemon(request, pokemon_id):
         }
         pokemon_data['previous_evolution'] = parent_data
     kids = pokemon.kids.all()
-    if kids:
+    if kids.first():
         kid_data = {
-            'title_ru': kids[0].title,
-            'pokemon_id': kids[0].id,
-            'img_url': request.build_absolute_uri(location=kids[0].image.url)
+            'title_ru': kids.first().title,
+            'pokemon_id': kids.first().id,
+            'img_url': request.build_absolute_uri(location=kids.first().image.url)
         }
         pokemon_data['next_evolution'] = kid_data
     return render(request, 'pokemon.html', context={
