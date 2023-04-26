@@ -6,8 +6,6 @@ from django.shortcuts import render
 from django.utils.timezone import localtime
 from .models import Pokemon, PokemonEntity
 
-
-
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
     'https://vignette.wikia.nocookie.net/pokemon/images/6/6e/%21.png/revision'
@@ -32,7 +30,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 def show_all_pokemons(request):
     datetime_now = localtime()
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    pokemon_entity = PokemonEntity.objects.filter(appeared_at__lte=datetime_now,disappeared_at__gt=datetime_now)
+    pokemon_entity = PokemonEntity.objects.filter(appeared_at__lte=datetime_now, disappeared_at__gt=datetime_now)
     for pokemon_entity in pokemon_entity:
         img_url = request.build_absolute_uri(location=pokemon_entity.pokemon.image.url)
         add_pokemon(
@@ -43,7 +41,7 @@ def show_all_pokemons(request):
     pokemons = Pokemon.objects.all()
     pokemons_on_page = []
     for pokemon in pokemons:
-        img_url = request.build_absolute_uri(location = pokemon.image.url)
+        img_url = request.build_absolute_uri(location=pokemon.image.url)
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': img_url,
